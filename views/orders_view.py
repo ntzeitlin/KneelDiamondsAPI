@@ -91,7 +91,6 @@ def create_order(order_data):
 
 def delete_order(pk):
     with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
-        conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
         # SQL Delete Query

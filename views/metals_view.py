@@ -10,7 +10,7 @@ def update_metal(id, metal_data):
             """
         UPDATE Metals
             SET
-                metal = ?
+                metal = ?,
                 price = ?
         WHERE id = ?
         """,

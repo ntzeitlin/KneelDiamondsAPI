@@ -62,6 +62,6 @@ INSERT INTO 'Styles' VALUES (null, "futuristic", 200);
 
 INSERT INTO 'Orders' VALUES (null, 1, 1, 1);
 INSERT INTO 'Orders' VALUES (null, 1, 2, 2);
-INSERT INTO 'Orders' VALUES (null, 2, 0, 0);
+INSERT INTO 'Orders' VALUES (null, 2, 3, 3);
 
 -- End Block

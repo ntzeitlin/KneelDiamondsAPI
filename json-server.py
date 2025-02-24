@@ -17,3 +17,13 @@ class JSONServer(HandleRequests):
         if url["requested_resource"] == "orders":
             response_body = get_all_orders()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
+
+def main():
+    host = ""
+    port = 8000
+    HTTPServer((host, port), JSONServer).serve_forever()
+
+
+if __name__ == "__main__":
+    main()

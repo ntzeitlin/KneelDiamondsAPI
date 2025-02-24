@@ -32,7 +32,7 @@ def get_all_orders():
         for row in query_results:
             orders.append(dict(row))
 
-        serialized_orders = json.dumps(orders)
+        serialized_orders = json.dumps(orders) if orders else {}
     return serialized_orders
 
 
@@ -69,3 +69,21 @@ def get_single_ship(pk):
         # Serialize Python list to JSON encoded string
         serialized_order = json.dumps(dictionary_version_of_object)
     return serialized_order
+
+
+def create_order(order_data):
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute(
+            """
+            INSERT INTO Orders
+            (metal_id, size_id, style_id)
+            VALUES (?, ?, ?)
+            """,
+            (order_data["metal_id"], order_data["size_id"], order_data["style_id"]),
+        )
+
+        rows_affected = db_cursor.rowcount
+
+    return True if rows_affected > 0 else False

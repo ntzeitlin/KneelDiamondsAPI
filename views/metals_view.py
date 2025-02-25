@@ -1,5 +1,4 @@
 import sqlite3
-import json
 
 
 def update_metal(id, metal_data):

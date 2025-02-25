@@ -9,14 +9,20 @@ def get_all_orders():
 
         db_cursor.execute(
             """
-                SELECT 
-                    orders.id,
-                    metals.id,
-                    metals.metal,
-                    sizes.id,
-                    sizes.size,
-                    styles.id,
-                    styles.style
+               SELECT
+                orders.id ordersId,
+                orders.metal_id,
+                orders.size_id,
+                orders.style_id,
+                metals.id metalId,
+                metals.metal metalName,
+                metals.price metal_price,
+                sizes.id,
+                sizes.size sizeName,
+                sizes.price size_price,
+                styles.id,
+                styles.style styleName,
+                styles.price style_price
 
                 FROM Orders orders
                 JOIN Metals metals
@@ -30,7 +36,22 @@ def get_all_orders():
         query_results = db_cursor.fetchall()
         orders = []
         for row in query_results:
-            orders.append(dict(row))
+            metal = {
+                "metal": row["metalName"],
+                "price": row["metal_price"],
+            }
+            size = {"size": row["sizeName"], "price": row["size_price"]}
+            style = {"style": row["styleName"], "price": row["style_price"]}
+            order = {
+                "id": row["ordersId"],
+                "metal_id": row["metal_id"],
+                "metal": metal,
+                "style_id": row["style_id"],
+                "style": style,
+                "size_id": row["size_id"],
+                "size": size,
+            }
+            orders.append(order)
 
         serialized_orders = json.dumps(orders) if orders else {}
     return serialized_orders
@@ -45,12 +66,18 @@ def get_single_ship(pk):
             """
             SELECT
                 orders.id,
+                orders.metal_id,
+                orders.size_id,
+                orders.style_id,
                 metals.id,
                 metals.metal,
+                metals.price metal_price,
                 sizes.id,
                 sizes.size,
+                sizes.price size_price,
                 styles.id,
-                styles.style
+                styles.style,
+                styles.price style_price
 
                 FROM Orders orders
                 JOIN Metals metals

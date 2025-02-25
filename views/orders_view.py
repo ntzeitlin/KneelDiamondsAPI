@@ -57,7 +57,7 @@ def get_all_orders():
     return serialized_orders
 
 
-def get_single_ship(pk):
+def get_single_order(pk):
     with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()

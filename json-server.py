@@ -4,7 +4,7 @@ from nss_handler import HandleRequests, status
 
 from views import (
     get_all_orders,
-    get_single_ship,
+    get_single_order,
     create_order,
     delete_order,
     update_metal,
@@ -22,7 +22,7 @@ class JSONServer(HandleRequests):
 
         if url["requested_resource"] == "orders":
             if url["pk"] != 0:
-                response_body = get_single_ship(url["pk"])
+                response_body = get_single_order(url["pk"])
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
             response_body = get_all_orders()

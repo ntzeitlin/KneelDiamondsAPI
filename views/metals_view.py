@@ -1,9 +1,8 @@
-import json
 from .ring_option import RingOption
 
 
 class Metal(RingOption):
-    def get_all_metals(self) -> dict:
+    def get_all_metals(self) -> list:
         return super().get_all(
             """
             SELECT
@@ -12,6 +11,19 @@ class Metal(RingOption):
                 price
             FROM Metals
             """
+        )
+
+    def get_a_metal(self, id) -> str:
+        return super().get_one(
+            primary_key=id,
+            sql_command="""
+            SELECT
+                id,
+                metal,
+                price
+            FROM Metals
+            WHERE id = ?
+            """,
         )
 
     def update_metal(self, id, metal_data) -> bool:

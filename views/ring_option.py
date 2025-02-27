@@ -13,7 +13,7 @@ class RingOption:
         pass
 
     # NOTE: Functioning
-    def get_all(self, sql_command) -> dict:
+    def get_all(self, sql_command) -> list:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             conn.row_factory = sqlite3.Row
             db_cursor = conn.cursor()

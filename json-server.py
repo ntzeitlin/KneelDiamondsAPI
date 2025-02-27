@@ -23,6 +23,11 @@ class JSONServer(HandleRequests):
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
         elif url["requested_resource"] == "metals":
             metal_option = Metal()
+
+            if url["pk"] != 0:
+                response_body = metal_option.get_a_metal(url["pk"])
+                return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
             response_body = metal_option.get_all_metals()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
         else:

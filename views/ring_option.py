@@ -68,21 +68,19 @@ class RingOption:
             rows_affected = db_cursor.rowcount
         return True if rows_affected > 0 else False
 
-    # NOTE: Not Tested
-    def delete_one(self, primary_key, table_name) -> bool:
+    # NOTE: Functioning, but using an f-string is dangerous
+    def delete_one(self, table_name, id) -> bool:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()
 
             db_cursor.execute(
-                """
+                f"""
             DELETE
-            FROM table_name = ?
+            FROM {table_name}
             WHERE id = ?
             """,
-                (
-                    table_name,
-                    primary_key,
-                ),
+                (id,),
             )
+
             number_of_rows_deleted = db_cursor.rowcount
         return True if number_of_rows_deleted > 0 else False

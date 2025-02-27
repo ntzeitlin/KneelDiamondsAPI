@@ -73,6 +73,16 @@ class JSONServer(HandleRequests):
                     return self.response(
                         "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
                     )
+        elif url["requested_resource"] == "sizes":
+            if pk != 0:
+                size_option = Size()
+                successfully_updated = size_option.update_one(
+                    id=pk, size_data=request_body
+                )
+                if successfully_updated:
+                    return self.response(
+                        "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
+                    )
         return self.response(
             "Requested resource not found",
             status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value,
@@ -80,7 +90,6 @@ class JSONServer(HandleRequests):
 
     def do_POST(self):
         """Handle POST requests from a client"""
-        metal_option = Metal()
 
         # Parse the URL
         url = self.parse_url(self.path)
@@ -96,7 +105,14 @@ class JSONServer(HandleRequests):
                 return self.response("", status.HTTP_201_SUCCESS_CREATED.value)
 
         elif url["requested_resource"] == "metals":
+            metal_option = Metal()
             successfully_added = metal_option.create_one(request_body)
+            if successfully_added:
+                return self.response("", status.HTTP_201_SUCCESS_CREATED.value)
+
+        elif url["requested_resource"] == "sizes":
+            size_option = Size()
+            successfully_added = size_option.create_one(request_body)
             if successfully_added:
                 return self.response("", status.HTTP_201_SUCCESS_CREATED.value)
 
@@ -128,6 +144,19 @@ class JSONServer(HandleRequests):
         elif url["requested_resource"] == "metals":
             if pk != 0:
                 successfully_deleted = metal_option.delete_one(pk)
+                if successfully_deleted:
+                    return self.response(
+                        "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
+                    )
+
+            return self.response(
+                "Requested resource not found",
+                status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value,
+            )
+        elif url["requested_resource"] == "sizes":
+            if pk != 0:
+                size_option = Size()
+                successfully_deleted = size_option.delete_one(pk)
                 if successfully_deleted:
                     return self.response(
                         "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value

@@ -12,6 +12,7 @@ class RingOption:
     def __str__(self):
         pass
 
+    # NOTE: Functioning
     def get_all(self, sql_command) -> list:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             conn.row_factory = sqlite3.Row
@@ -23,6 +24,7 @@ class RingOption:
             query_results = db_cursor.fetchall()
         return query_results
 
+    # NOTE: Not Tested
     def get_one(self, primary_key, sql_command) -> str:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             conn.row_factory = sqlite3.Row
@@ -39,6 +41,7 @@ class RingOption:
             serialized_return = json.dumps(dictionary_version_of_object)
         return serialized_return
 
+    # NOTE: Not Tested
     def create_one(self, body_data, sql_command) -> bool:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()
@@ -49,6 +52,7 @@ class RingOption:
 
         return True if rows_affected > 0 else False
 
+    # NOTE: Functioning!
     def update_one(self, sql_command, values):
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()
@@ -58,6 +62,7 @@ class RingOption:
             rows_affected = db_cursor.rowcount
         return True if rows_affected > 0 else False
 
+    # NOTE: Not Tested
     def delete_one(self, primary_key, table_name) -> bool:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()

@@ -21,6 +21,10 @@ class JSONServer(HandleRequests):
 
             response_body = get_all_orders()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
+        elif url["requested_resource"] == "metals":
+            metal_option = Metal()
+            response_body = metal_option.get_all_metals()
+            return self.response(response_body, status.HTTP_200_SUCCESS.value)
         else:
             return self.response(
                 "", status.HTTP_400_CLIENT_ERROR_BAD_REQUEST_DATA.value

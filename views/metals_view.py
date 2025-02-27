@@ -1,20 +1,19 @@
 import sqlite3
+from .ring_option import RingOption
 
 
-def update_metal(id, metal_data):
-    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
-        db_cursor = conn.cursor()
+class Metal(RingOption):
+    def get_all_metals(self):
+        pass
 
-        db_cursor.execute(
+    def update_metal(self, id, metal_data) -> bool:
+        return super().update_one(
             """
-        UPDATE Metals
+            UPDATE Metals
             SET
                 metal = ?,
                 price = ?
-        WHERE id = ?
+            WHERE id = ?
         """,
             (metal_data["metal"], metal_data["price"], id),
         )
-
-        rows_affected = db_cursor.rowcount
-    return True if rows_affected > 0 else False

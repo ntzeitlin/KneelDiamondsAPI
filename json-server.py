@@ -2,13 +2,7 @@ import json
 from http.server import HTTPServer
 from nss_handler import HandleRequests, status
 
-from views import (
-    get_all_orders,
-    get_single_order,
-    create_order,
-    delete_order,
-    update_metal,
-)
+from views import get_all_orders, get_single_order, create_order, delete_order, Metal
 
 
 class JSONServer(HandleRequests):
@@ -46,7 +40,10 @@ class JSONServer(HandleRequests):
 
         if url["requested_resource"] == "metals":
             if pk != 0:
-                successfully_updated = update_metal(pk, request_body)
+                metal_option = Metal()
+                successfully_updated = metal_option.update_metal(
+                    id=pk, metal_data=request_body
+                )
                 if successfully_updated:
                     return self.response(
                         "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value

@@ -1,6 +1,9 @@
 import sqlite3
 import json
 
+# Can I create a class to standardize the get, del, etc functions like in the example Steve used in class?
+# Create Views for each table
+
 
 def get_all_orders():
     with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:

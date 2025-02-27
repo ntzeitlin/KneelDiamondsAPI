@@ -30,7 +30,7 @@ class RingOption:
             serialized_results = json.dumps(results_list) if results_list else {}
         return serialized_results
 
-    # NOTE: Not Tested
+    # NOTE: Functioning
     def get_one(self, primary_key, sql_command) -> str:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             conn.row_factory = sqlite3.Row
@@ -47,12 +47,12 @@ class RingOption:
             serialized_return = json.dumps(dictionary_version_of_object)
         return serialized_return
 
-    # NOTE: Not Tested
-    def create_one(self, body_data, sql_command) -> bool:
+    # NOTE: Functioning
+    def create_one(self, sql_command: str, values: tuple) -> bool:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()
 
-            db_cursor.execute(body_data, sql_command)
+            db_cursor.execute(sql_command, values)
 
             rows_affected = db_cursor.rowcount
 

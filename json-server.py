@@ -2,7 +2,14 @@ import json
 from http.server import HTTPServer
 from nss_handler import HandleRequests, status
 
-from views import get_all_orders, get_single_order, create_order, delete_order, Metal
+from views import (
+    get_all_orders,
+    get_single_order,
+    create_order,
+    delete_order,
+    Metal,
+    Size,
+)
 
 
 class JSONServer(HandleRequests):
@@ -28,6 +35,15 @@ class JSONServer(HandleRequests):
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
             response_body = metal_option.get_all()
+            return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
+        elif url["requested_resource"] == "sizes":
+            size_option = Size()
+            if url["pk"] != 0:
+                response_body = size_option.get_one(url["pk"])
+                return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
+            response_body = size_option.get_all()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
         else:

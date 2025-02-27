@@ -9,6 +9,7 @@ from views import (
     delete_order,
     Metal,
     Size,
+    Style,
 )
 
 
@@ -44,6 +45,15 @@ class JSONServer(HandleRequests):
                 return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
             response_body = size_option.get_all()
+            return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
+        elif url["requested_resource"] == "styles":
+            style_option = Style()
+            if url["pk"] != 0:
+                response_body = style_option.get_one(url["pk"])
+                return self.response(response_body, status.HTTP_200_SUCCESS.value)
+
+            response_body = style_option.get_all()
             return self.response(response_body, status.HTTP_200_SUCCESS.value)
 
         else:
@@ -83,6 +93,17 @@ class JSONServer(HandleRequests):
                     return self.response(
                         "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
                     )
+
+        elif url["requested_resource"] == "styles":
+            if pk != 0:
+                style_option = Style()
+                successfully_updated = style_option.update_one(
+                    id=pk, style_data=request_body
+                )
+                if successfully_updated:
+                    return self.response(
+                        "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
+                    )
         return self.response(
             "Requested resource not found",
             status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value,
@@ -113,6 +134,12 @@ class JSONServer(HandleRequests):
         elif url["requested_resource"] == "sizes":
             size_option = Size()
             successfully_added = size_option.create_one(request_body)
+            if successfully_added:
+                return self.response("", status.HTTP_201_SUCCESS_CREATED.value)
+
+        elif url["requested_resource"] == "styles":
+            style_option = Style()
+            successfully_added = style_option.create_one(request_body)
             if successfully_added:
                 return self.response("", status.HTTP_201_SUCCESS_CREATED.value)
 
@@ -157,6 +184,19 @@ class JSONServer(HandleRequests):
             if pk != 0:
                 size_option = Size()
                 successfully_deleted = size_option.delete_one(pk)
+                if successfully_deleted:
+                    return self.response(
+                        "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value
+                    )
+
+            return self.response(
+                "Requested resource not found",
+                status.HTTP_404_CLIENT_ERROR_RESOURCE_NOT_FOUND.value,
+            )
+        elif url["requested_resource"] == "styles":
+            if pk != 0:
+                style_option = Style()
+                successfully_deleted = style_option.delete_one(pk)
                 if successfully_deleted:
                     return self.response(
                         "", status.HTTP_204_SUCCESS_NO_RESPONSE_BODY.value

@@ -58,7 +58,7 @@ class RingOption:
 
         return True if rows_affected > 0 else False
 
-    # NOTE: Functioning!
+    # NOTE: Functioning
     def update_one(self, sql_command, values):
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             db_cursor = conn.cursor()

@@ -13,7 +13,7 @@ class RingOption:
         pass
 
     # NOTE: Functioning
-    def get_all(self, sql_command) -> list:
+    def get_all(self, sql_command) -> dict:
         with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
             conn.row_factory = sqlite3.Row
             db_cursor = conn.cursor()
@@ -22,7 +22,13 @@ class RingOption:
 
             # retrieve results
             query_results = db_cursor.fetchall()
-        return query_results
+
+            results_list = []
+            for row in query_results:
+                results_list.append(dict(row))
+
+            serialized_results = json.dumps(results_list) if results_list else {}
+        return serialized_results
 
     # NOTE: Not Tested
     def get_one(self, primary_key, sql_command) -> str:
